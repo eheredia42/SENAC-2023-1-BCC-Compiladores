@@ -41,23 +41,24 @@ void validateMalloc(void *pointer) {
 }
 
 int main(int argc, char **argv) {
-	if (argc < 2) {
+	if (argc < 2)
 		throwError("Not found file path");
-	}
+
 	char ch = '\0';
 	loopStructure *listLoopStructure =
 		(loopStructure *)malloc(sizeof(loopStructure) * NESTED_LOOPS_LIMIT);
+	validateMalloc(listLoopStructure);
 	uint64_t loopStructureIndex = 0;
 
 	char *tape = (char *)malloc(sizeof(char) * TAPE_SIZE);
+	validateMalloc(tape);
 	uint64_t tapeIndex = TAPE_SIZE / 2;
 	memset(tape, '\0', TAPE_SIZE);
 
 	FILE *file = fopen(argv[1], "r");
 
-	if (file == NULL) {
+	if (file == NULL)
 		throwError("Opening file");
-	}
 
 	fseek(file, 0, SEEK_END);
 	uint16_t fileSize = ftell(file);
