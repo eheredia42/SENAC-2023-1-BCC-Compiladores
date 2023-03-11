@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 	uint16_t fileSize = ftell(file);
 	rewind(file);
 
-	char *bfProgram = (char *)(sizeof(char) * fileSize);
+	char *bfProgram = (char *)malloc(sizeof(char) * fileSize);
 	uint64_t bfProgramIndex = 0;
 
 	validateMalloc(bfProgram);
@@ -139,5 +139,9 @@ int main(int argc, char **argv) {
 		}
 		bfProgramIndex++;
 	}
+
+    free(listLoopStructure);
+    free(tape);
+    free(bfProgram);
 	return 0;
 }
