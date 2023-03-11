@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 	FILE *file = fopen(argv[1], "r");
 
 	if (file == NULL) {
-	    throwError("Opening file");
+		throwError("Opening file");
 	}
 
 	fseek(file, 0, SEEK_END);
@@ -140,8 +140,8 @@ int main(int argc, char **argv) {
 		bfProgramIndex++;
 	}
 
-    free(listLoopStructure);
-    free(tape);
-    free(bfProgram);
+	free(listLoopStructure);
+	free(tape);
+	free(bfProgram);
 	return 0;
 }

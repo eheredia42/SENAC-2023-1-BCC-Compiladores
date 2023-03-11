@@ -1,4 +1,4 @@
-.PHONY: all run build clean teste format
+.PHONY: all run build clean teste format valgrind
 .ONESHELL :
 path = src
 
@@ -23,3 +23,6 @@ teste:
 
 format:
 	clang-format -i -style=file **/*.c 
+
+valgrind:
+	valgrind --leak-check=full ./src/main.out ./src/hello_world.txt 
