@@ -6,9 +6,15 @@ TARGET = main
 SRCS = $(wildcard src/*.c)
 OBJS = $(patsubst src/%.c,%.o,$(SRCS))
 
+ifeq ($(OS),Windows_NT)
+    RM = del /Q
+else
+    RM = rm -f
+endif
+
 .PHONY: all clean build run
 
-all: build
+all: clean build
 
 build: $(TARGET)
 
@@ -22,4 +28,4 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	$(RM) *.o *.exe
