@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 	char *tape = (char *)malloc(sizeof(char) * TAPE_SIZE);
 	validateMalloc(tape);
 	uint64_t tapeIndex = TAPE_SIZE / 2;
-	memset(tape, '\0', TAPE_SIZE);
+	memset(tape, 0, TAPE_SIZE);
 
 	FILE *file = fopen(argv[1], "r");
 
@@ -93,51 +93,71 @@ int main(int argc, char **argv) {
 
 	uint64_t lastIndex = bfProgramIndex;
 	bfProgramIndex = 0;
+	bool skipLoop = false;
+	int nestedLoopCounter = 0;
 	while (lastIndex > bfProgramIndex) {
 		ch = bfProgram[bfProgramIndex];
-		switch (ch) {
-		case '>':
-			tapeIndex++;
-			break;
-		case '<':
-			tapeIndex--;
-			break;
-		case '+':
-			validateIndex(tapeIndex, TAPE_SIZE);
-			tape[tapeIndex]++;
-			break;
-		case '-':
-			validateIndex(tapeIndex, TAPE_SIZE);
-			tape[tapeIndex]--;
-			break;
-		case '.':
-			validateIndex(tapeIndex, TAPE_SIZE);
-			putchar(tape[tapeIndex]);
-			break;
-		case '[':
-			if (loopStructureIndex >= NESTED_LOOPS_LIMIT)
-				throwError("Nested loop limit");
-			listLoopStructure[loopStructureIndex].condition = tape + tapeIndex;
-			listLoopStructure[loopStructureIndex].initialIndex = bfProgramIndex;
-			loopStructureIndex++;
-			break;
-		case ']':
-			if (loopStructureIndex > 0) {
-				if (*(listLoopStructure[loopStructureIndex - 1].condition) >
-					0) {
-					bfProgramIndex =
-						listLoopStructure[loopStructureIndex - 1].initialIndex;
+		if (!skipLoop || ch == '[' || ch == ']')
+			switch (ch) {
+			case '>':
+				tapeIndex++;
+				break;
+			case '<':
+				tapeIndex--;
+				break;
+			case '+':
+				validateIndex(tapeIndex, TAPE_SIZE);
+				tape[tapeIndex]++;
+				break;
+			case '-':
+				validateIndex(tapeIndex, TAPE_SIZE);
+				tape[tapeIndex]--;
+				break;
+			case '.':
+				validateIndex(tapeIndex, TAPE_SIZE);
+				putchar(tape[tapeIndex]);
+				break;
+			case '[':
+				if (((int)tape[tapeIndex]) != 0 && !skipLoop) {
+					if (loopStructureIndex >= NESTED_LOOPS_LIMIT)
+						throwError("Nested loop limit");
+					listLoopStructure[loopStructureIndex].condition =
+						tape + tapeIndex;
+					listLoopStructure[loopStructureIndex].initialIndex =
+						bfProgramIndex;
+					loopStructureIndex++;
 				} else {
-					listLoopStructure[loopStructureIndex - 1].condition = NULL;
-					listLoopStructure[loopStructureIndex - 1].initialIndex = 0;
-					loopStructureIndex--;
+					if (skipLoop)
+						nestedLoopCounter++;
+					skipLoop = true;
 				}
+				break;
+			case ']':
+				if (!skipLoop) {
+					if (loopStructureIndex > 0) {
+						if (*(listLoopStructure[loopStructureIndex - 1]
+								  .condition) > 0) {
+							bfProgramIndex =
+								listLoopStructure[loopStructureIndex - 1]
+									.initialIndex;
+						} else {
+							listLoopStructure[loopStructureIndex - 1]
+								.condition = NULL;
+							listLoopStructure[loopStructureIndex - 1]
+								.initialIndex = 0;
+							loopStructureIndex--;
+						}
+					}
+				} else if (nestedLoopCounter > 0) {
+					nestedLoopCounter--;
+				} else {
+					skipLoop = false;
+				}
+				break;
+			case ',':
+				tape[tapeIndex] = getchar();
+				break;
 			}
-			break;
-		case ',':
-			tape[tapeIndex] = getchar();
-			break;
-		}
 		bfProgramIndex++;
 	}
 
