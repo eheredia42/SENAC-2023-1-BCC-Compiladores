@@ -6,7 +6,7 @@
 
 ## Para rodar: 
 
-Na pasta src, rode no terminal
+rode no terminal
 
 ```shell
 make run
