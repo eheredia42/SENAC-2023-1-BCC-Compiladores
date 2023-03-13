@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define CAPACIDADE 30000
+#define CAPACIDADE 20000
 
-int main() {
-    FILE *brainfuck = fopen("brainfuck.txt", "r");
+int main(int argc, char *argv[]) {
+    FILE *brainfuck = fopen(argv[1], "r");
     
     if (!brainfuck) {
         printf("404: Arquivo não encontrado\n");
