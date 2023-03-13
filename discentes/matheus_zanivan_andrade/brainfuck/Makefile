@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+LAGS = -Wall
 
 SRC_DIR = src
 BUILD_DIR = build
