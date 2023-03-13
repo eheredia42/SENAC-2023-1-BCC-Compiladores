@@ -4,7 +4,7 @@ clean:
 	clear
 
 delete: 
-	@rm -rf *.o
+	@rm -rf src/*.o
 
-main: main.c
-	gcc -W -Wall main.c funcoes.c funcoes.h -o brainfuck
+main: src/main.c
+	gcc -W -Wall src/main.c src/funcoes.c src/funcoes.h -o brainfuck
