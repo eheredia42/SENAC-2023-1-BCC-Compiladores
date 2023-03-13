@@ -9,7 +9,7 @@
 rode no terminal
 
 ```shell
-make run
+make all
 ```
 
 Este comando irá apagar o build atual, buildar o código usando o gcc e rodá-lo.
