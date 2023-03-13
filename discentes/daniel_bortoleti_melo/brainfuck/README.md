@@ -18,7 +18,6 @@ Como limpar
 Para remover os arquivos gerados pela compilação, execute o seguinte comando no terminal:
 
 bash
-Copy code
 make clean
 Dependências
 O interpretador não tem dependências externas além do gcc, que é usado para compilar o código-fonte.
