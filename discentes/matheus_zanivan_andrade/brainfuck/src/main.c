@@ -15,7 +15,7 @@ int main() {
 	FILE *file = fopen("brainfuck.txt", "r");
 	if (!file){
 		printf("Erro: não foi possivel abrir o arquivo\n\n");
-		return 1;
+//		return 1;
 	}
 	
 	// Obtém o tamanho do arquivo
